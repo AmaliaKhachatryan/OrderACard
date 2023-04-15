@@ -1,5 +1,6 @@
 package ordertest;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -8,16 +9,19 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 public class OrderACardTest {
     private WebDriver driver;
-
+    @BeforeAll
+    public static void globalSetUp() {
+        WebDriverManager.chromedriver().setup();
+    //  System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
+    }
     @BeforeEach
     public void setUp() {
-        System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--no-sandbox");
         options.addArguments("--headless");
         driver = new ChromeDriver(options);
-    //    driver = new ChromeDriver();
+     //   driver = new ChromeDriver();
         driver.get("http://localhost:9999");
     }
     @Test
