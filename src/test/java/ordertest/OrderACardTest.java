@@ -12,7 +12,6 @@ public class OrderACardTest {
     @BeforeAll
     public static void globalSetUp() {
         WebDriverManager.chromedriver().setup();
-    //  System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
     }
     @BeforeEach
     public void setUp() {
@@ -21,7 +20,6 @@ public class OrderACardTest {
         options.addArguments("--no-sandbox");
         options.addArguments("--headless");
         driver = new ChromeDriver(options);
-     //   driver = new ChromeDriver();
         driver.get("http://localhost:9999");
     }
     @Test
@@ -31,7 +29,7 @@ public class OrderACardTest {
         driver.findElement(By.className("checkbox__box")).click();
         driver.findElement(By.cssSelector("button[role='button']")).click();
         String expected = ("Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время.");
-        String actual = driver.findElement(By.tagName("p")).getText().trim();
+        String actual = driver.findElement(By.cssSelector("[data-test-id='order-success']")).getText().trim();
         Assertions.assertEquals(expected, actual);
     }
     @Test
@@ -41,7 +39,7 @@ public class OrderACardTest {
         driver.findElement(By.className("checkbox__box")).click();
         driver.findElement(By.cssSelector("button[role='button']")).click();
         String expected = ("Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время.");
-        String actual = driver.findElement(By.tagName("p")).getText().trim();
+        String actual = driver.findElement(By.cssSelector("[data-test-id='order-success']")).getText().trim();
         Assertions.assertEquals(expected, actual);
     }
     @Test
@@ -51,7 +49,7 @@ public class OrderACardTest {
         driver.findElement(By.className("checkbox__box")).click();
         driver.findElement(By.cssSelector("button[role='button']")).click();
         String expected = ("Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время.");
-        String actual = driver.findElement(By.tagName("p")).getText().trim();
+        String actual = driver.findElement(By.cssSelector("[data-test-id='order-success']")).getText().trim();
         Assertions.assertEquals(expected, actual);
     }
     @Test
@@ -61,7 +59,7 @@ public class OrderACardTest {
         driver.findElement(By.className("checkbox__box")).click();
         driver.findElement(By.cssSelector("button[role='button']")).click();
         String expected = ("Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы.");
-        String actual = driver.findElement(By.className("input__sub")).getText().trim();
+        String actual = driver.findElement(By.cssSelector("[data-test-id='name'].input_invalid .input__sub")).getText().trim();
         Assertions.assertEquals(expected, actual);
     }
     @Test
@@ -70,7 +68,7 @@ public class OrderACardTest {
         driver.findElement(By.className("checkbox__box")).click();
         driver.findElement(By.cssSelector("button[role='button']")).click();
         String expected = ("Поле обязательно для заполнения");
-        String actual = driver.findElement(By.className("input__sub")).getText().trim();
+        String actual = driver.findElement(By.cssSelector("[data-test-id='name'].input_invalid .input__sub")).getText().trim();
         Assertions.assertEquals(expected, actual);
     }
     @Test
@@ -80,7 +78,7 @@ public class OrderACardTest {
         driver.findElement(By.className("checkbox__box")).click();
         driver.findElement(By.cssSelector("button[role='button']")).click();
         String expected = ("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678.");
-        String actual = driver.findElements(By.className("input__sub")).get(1).getText().trim();
+        String actual = driver.findElement(By.cssSelector("[data-test-id='phone'].input_invalid .input__sub")).getText().trim();
         Assertions.assertEquals(expected, actual);
     }
     @Test
@@ -90,7 +88,7 @@ public class OrderACardTest {
         driver.findElement(By.className("checkbox__box")).click();
         driver.findElement(By.cssSelector("button[role='button']")).click();
         String expected = ("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678.");
-        String actual = driver.findElements(By.className("input__sub")).get(1).getText().trim();
+        String actual = driver.findElement(By.cssSelector("[data-test-id='phone'].input_invalid .input__sub")).getText().trim();
         Assertions.assertEquals(expected, actual);
     }
     @Test
@@ -99,7 +97,8 @@ public class OrderACardTest {
         driver.findElement(By.className("checkbox__box")).click();
         driver.findElement(By.cssSelector("button[role='button']")).click();
         String expected = ("Поле обязательно для заполнения");
-        String actual = driver.findElements(By.className("input__sub")).get(1).getText().trim();
+        String actual = driver.findElement(By.cssSelector("[data-test-id='phone'].input_invalid .input__sub"))
+                .getText().trim();
         Assertions.assertEquals(expected, actual);
     }
     @Test
@@ -107,8 +106,8 @@ public class OrderACardTest {
         driver.findElement(By.cssSelector("input[name ='name']")).sendKeys("Геворгян Милена");
         driver.findElement(By.cssSelector("input[name ='phone']")).sendKeys("+79758564617");
         driver.findElement(By.cssSelector("button[role='button']")).click();
-        Assertions.assertTrue(driver.findElement(By.xpath
-                        (".//*[contains(@class,' input_invalid')]"))
+        Assertions.assertTrue(driver.findElement(By.cssSelector
+                        ("[data-test-id='agreement'].input_invalid"))
                 .isDisplayed());
     }
     @AfterEach
